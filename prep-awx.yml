@@ -51,34 +51,34 @@
     become_user: awx
   - name: Initialize AWX Config
     command: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', 'password')" | sudo -u awx /opt/awx/bin/awx-manage shell
-  - name: Preload data
-    command: /opt/awx/bin/awx-manage create_preload_data
-    become: yes
-    become_user: awx
-  - name: Demo data
-    command: /opt/awx/bin/awx-manage provision_instance --hostname=$(hostname)
-    become: yes
-    become_user: awx
-  - name: Create Instance Group Tower
-    command: /opt/awx/bin/awx-manage register_queue --queuename=tower --hostnames=$(hostname)
-    become: yes
-    become_user: awx
-  - name: Backup Nginx
-    command: mv /etc/nginx/nginx.conf /etc/nginx.conf.bkp
-  - name: Get nginx config
-    get_url:
-        url: https://raw.githubusercontent.com/sunilsankar/awx-build/master/nginx.conf
-        dest: /etc/nginx/nginx.conf
-  - name: Start nginx
-    service: 
-        name: nginx
-        state: started
-  - name: start AWX services
-    service: name={{item}} state=started
-    with_items:
-        - awx-cbreceiver
-        - awx-celery-beat
-        - awx-celery-worker
-        - awx-channels-worker
-        - awx-daphne
-        - awx-web
+#  - name: Preload data
+#    command: /opt/awx/bin/awx-manage create_preload_data
+#    become: yes
+#    become_user: awx
+#  - name: Demo data
+#    command: /opt/awx/bin/awx-manage provision_instance --hostname=$(hostname)
+#    become: yes
+#    become_user: awx
+#  - name: Create Instance Group Tower
+#    command: /opt/awx/bin/awx-manage register_queue --queuename=tower --hostnames=$(hostname)
+#    become: yes
+#    become_user: awx
+#  - name: Backup Nginx
+#    command: mv /etc/nginx/nginx.conf /etc/nginx.conf.bkp
+#  - name: Get nginx config
+#    get_url:
+#        url: https://raw.githubusercontent.com/sunilsankar/awx-build/master/nginx.conf
+#        dest: /etc/nginx/nginx.conf
+#  - name: Start nginx
+#    service: 
+#        name: nginx
+#        state: started
+#  - name: start AWX services
+#    service: name={{item}} state=started
+#    with_items:
+#        - awx-cbreceiver
+#        - awx-celery-beat
+#        - awx-celery-worker
+#        - awx-channels-worker
+#        - awx-daphne
+#        - awx-web
