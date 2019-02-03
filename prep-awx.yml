@@ -24,6 +24,10 @@
             - python-psycopg2
             - awx
          state: present
+  - name: Set SELinux to Permissive mode
+    selinux:
+         policy: targeted
+         state: permissive
   - name: Initialize Postgres
     command: /usr/pgsql-9.6/bin/postgresql96-setup initdb
   - name: Ensure installed Services are running
