@@ -71,7 +71,7 @@
     command: mv /etc/nginx/nginx.conf /etc/nginx.conf.bkp
   - name: Get nginx config
     get_url:
-        url: https://raw.githubusercontent.com/sunilsankar/awx-build/master/nginx.conf
+        url: https://raw.githubusercontent.com/marc-leblanc/awx-ansible-setup/assets/nginx/nginx.conf
         dest: /etc/nginx/nginx.conf
   - name: Start nginx
     service: 
