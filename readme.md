@@ -6,5 +6,6 @@ Set up can be bootstrapped using *prep-awx-centos7-setup.sh*. This will install 
 
 If you use the set up script, once connecting to the instance cd to /root/prep-awx/ and run * ansible-playbook prep-awx.yml * 
 
+Update 02-7-2019: Works in current form, need to break out static assignments of values to variables ie login password/Start replacing bash script with Terraform
 
 Update 01-27-2019: Debugging issue with pre-load data task
