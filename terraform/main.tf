@@ -8,7 +8,6 @@ provider "google" {
 // Create a new instance
 resource "google_compute_instance" "Arc1" {
   count = 1
-  #name         = "am1-test"
   machine_type = "n1-standard-1"
   zone         = "${var.gcp_region}-${var.gcp_zone}"
   name = "${var.gcp_instance_name}"
@@ -31,14 +30,26 @@ resource "google_compute_instance" "Arc1" {
     #foo = "bar"
   #}
 
-#  metadata_startup_script = "echo hi > /test.txt"
 
-  #metadata_startup_script = "echo ${data.google_compute_address.my_address.address} > /root/yourIP"
+  provisioner "remote-exec" {
+    connection { 
+      type    = "ssh"
+      user    = "mleblanc"
+      timeout = "500s"
+      private_key = "${file("~/.ssh/id_gcp_rsa")}"
+    }
+    inline = [
 
+      "sudo yum -y install git ansible",
+      "sudo mkdir /root/prep-awx",
+      "sudo cd /root/prep-awx",
+      "sudo git init",
+      "sudo git remote add origin https://github.com/marc-leblanc/awx-ansible-install.git",
+      "sudo git pull https://github.com/marc-leblanc/awx-ansible-install/",
+      "sudo cd prep-awx",
+      "sudo ansible-playbook prep-awx.yml"
+    ]
 
-  #service_account {
-  #  scopes = ["userinfo-email", "compute-ro", "storage-ro"]
-  #}
-
+  }
 
 }
