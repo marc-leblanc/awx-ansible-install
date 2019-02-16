@@ -26,10 +26,8 @@ resource "google_compute_instance" "Arc1" {
       // Ephemeral IP
    }
 }
-  ##metadata {
-    #foo = "bar"
-  #}
 
+  tags=["http","https"]
 
   provisioner "remote-exec" {
     connection { 
@@ -52,4 +50,21 @@ resource "google_compute_instance" "Arc1" {
 
   }
 
+}
+
+resource "google_compute_firewall" "default" {
+ name    = "web-firewall"
+ network = "default"
+
+ allow {
+   protocol = "icmp"
+ }
+
+ allow {
+   protocol = "tcp"
+   ports    = ["80","443","8443"]
+ }
+
+ source_ranges = ["0.0.0.0/0"]
+ target_tags = ["http","https"]
 }
