@@ -1,5 +1,5 @@
 provider "google" {
-  credentials = "${file("account.json")}"
+  credentials = "${file("${var.gcp_json}")}"
   project     = "${var.gcp_project_id}"
   region      = "${var.gcp_region}"
   zone        = "${var.gcp_region}-${var.gcp_zone}"
@@ -16,7 +16,7 @@ resource "google_compute_instance" "Arc1" {
 
   boot_disk {
     initialize_params {
-      image = ${var.gcp_instance_os}
+      image = "${var.gcp_instance_os}"
     }
   }
 
