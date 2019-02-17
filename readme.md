@@ -4,12 +4,14 @@ Rudimentary ansible playbook to install AWX. Please read through the playbook an
 ## Usage
 
 **Option 1: Startup Script URL on Compute Instance**
+
 Set up can be bootstrapped using *prep-awx-centos7-setup.sh*. This will install git and ansible and preload the git repository for you. The raw URL for this script can also be passed to GCP as a Meta key for ** startup-script-url ** and the pre-staging will occur on instance deployment
 
 If you use the set up script, once connecting to the instance cd to /root/prep-awx/ and run *ansible-playbook prep-awx.yml* 
 
 
 **Option 2: Let Terraform do it**
+
 For this there is some set up:
 
 1) Create a GCP Service Account with Compute Engine Admin and Compute Engine OS Admin roles
