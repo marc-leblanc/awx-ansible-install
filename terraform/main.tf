@@ -28,7 +28,9 @@ resource "google_compute_instance" "Arc1" {
 }
 
   tags=["http","https"]
-
+  metadata {
+     ssh-keys = "mleblanc:${file("~/.ssh/id_gcp_rsa.pub")}"
+  }
   provisioner "remote-exec" {
     connection { 
       type    = "ssh"
