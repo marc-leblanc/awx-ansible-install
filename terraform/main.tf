@@ -1,72 +1,25 @@
-provider "google" {
-  credentials = "${file("${var.gcp_json}")}"
-  project     = "${var.gcp_project_id}"
-  region      = "${var.gcp_region}"
-  zone        = "${var.gcp_region}-${var.gcp_zone}"
+module "gcp" {
+   source                 = "./modules/gcp"
+   gcp_json               = "/home/mleblanc/projects/awx-ansible-setup/secrets/gcp.json"
+   gcp_project_id         = "lhq-miq-gcp"
+   gcp_region             = "northamerica-northeast1"
+   gcp_zone               = "a"
+   gcp_instance_name      = "awx01"
+   gcp_instance_os        = "centos-cloud/centos-7"
+   ssh_key_path           = "~/.ssh/"
+   ssh_key_pub            = "gcp_rsa.pub"
+   ssh_key_priv           = "gcp_rsa"
+   ssh_user               = "mleblanc"
 }
 
-// Create a new instance
-resource "google_compute_instance" "Arc1" {
-  count = 1
-  machine_type = "n1-standard-1"
-  zone         = "${var.gcp_region}-${var.gcp_zone}"
-  name = "${var.gcp_instance_name}"
-
-
-  boot_disk {
-    initialize_params {
-      image = "${var.gcp_instance_os}"
-    }
-  }
-
- network_interface {
-    network = "default"
-
-    access_config {
-      // Ephemeral IP
-   }
-}
-
-  tags=["http","https"]
-  metadata {
-     ssh-keys = "mleblanc:${file("~/.ssh/id_gcp_rsa.pub")}"
-  }
-  provisioner "remote-exec" {
-    connection { 
-      type    = "ssh"
-      user    = "mleblanc"
-      timeout = "500s"
-      private_key = "${file("~/.ssh/id_gcp_rsa")}"
-    }
-    inline = [
-
-      "sudo yum -y install git ansible",
-      "sudo mkdir /root/prep-awx",
-      "sudo cd /root/prep-awx",
-      "sudo git init",
-      "sudo git remote add origin https://github.com/marc-leblanc/awx-ansible-install.git",
-      "sudo git pull https://github.com/marc-leblanc/awx-ansible-install/",
-      "sudo cd prep-awx",
-      "sudo ansible-playbook prep-awx.yml"
-    ]
-
-  }
-
-}
-
-resource "google_compute_firewall" "default" {
- name    = "web-firewall"
- network = "default"
-
- allow {
-   protocol = "icmp"
- }
-
- allow {
-   protocol = "tcp"
-   ports    = ["80","443","8443"]
- }
-
- source_ranges = ["0.0.0.0/0"]
- target_tags = ["http","https"]
-}
+# source             = module path
+# gcp_jason          = GCP Service Account Key 
+# gcp_project_id     = GCP Project ID
+# gcp_region         = GCP Region for instances ie northamerica-northeast
+# gcp_zone           = GCP Zone within the region ie a,b,c
+# gcp_instance_name  = The instance name as it will appear in GCP https://cloud.google.com/compute/docs/regions-zones/
+# gcp_instance_os    = The OS Image to use - public images https://cloud.google.com/compute/docs/images#os-compute-support
+# ssh_key_path       = Path to SSH key pair to use
+# ssh_key_pub        = Public Key filename to be provisioned to the instance
+# ssh_key_priv       = Private Key filename 
+# ssh_user           = Username for ssh
