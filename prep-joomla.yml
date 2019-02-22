@@ -1,0 +1,31 @@
+---
+- name: Prep for AWX Install
+  hosts: localhost
+  tasks:
+  - name: Add custom Yum repos for install 
+    yum:
+         name:  https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+         state: present
+  - name: Install required packages
+    yum: 
+         name:
+            - git
+            - epel-release
+            - memcached
+            - ansible
+            - wget
+            - httpd
+         state: present
+  - name: Set SELinux to Permissive mode
+    selinux:
+         policy: targeted
+         state: permissive
+  - name: Start and enable Apache
+    service: 
+         name: httpd
+         state: started
+  - name: Get Joomla
+    unarchive: 
+         remote_src: yes
+         src: https://downloads.joomla.org/cms/joomla3/3-9-3/Joomla_3-9-3-Stable-Full_Package.tar.gz?format=gz
+         dest: /var/www/html/
