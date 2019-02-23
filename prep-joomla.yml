@@ -15,6 +15,7 @@
             - ansible
             - wget
             - httpd
+            - php
          state: present
   - name: Set SELinux to Permissive mode
     selinux:
