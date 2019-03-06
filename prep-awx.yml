@@ -54,7 +54,8 @@
     become: yes
     become_user: awx
   - name: Initialize AWX Config
-    shell: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', '{{awx_admin_pass}}')" | sudo -u awx /opt/awx/bin/awx-manage shell
+    shell: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', 'supersecretpassword')" | sudo -u awx /opt/awx/bin/awx-manage shell
+    #  shell: echo "from django.contrib.auth.models import User; User.objects.create_superuser('admin', 'root@localhost', '{{ lookup('env','AWX_ADMIN_PASS') }}')" | sudo -u awx /opt/awx/bin/awx-manage shell
   - name: Preload data
     command: /opt/awx/bin/awx-manage create_preload_data
     become: yes
