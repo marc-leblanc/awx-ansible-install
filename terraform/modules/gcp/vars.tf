@@ -1,4 +1,6 @@
 # Account Setup
+variable "awx_admin" {}
+variable "awx_admin_pass" {}
 variable "gcp_json" {}
 variable "gcp_project_id" {}
 variable "gcp_region" {}

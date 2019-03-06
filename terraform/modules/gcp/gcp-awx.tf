@@ -46,15 +46,17 @@ resource "google_compute_instance" "awx01" {
       private_key = "${file("${var.ssh_key_path}${var.ssh_key_priv}")}"
     }
     inline = [
-
       "sudo yum -y install git ansible",
+      "sudo -u awx export AWX_ADMIN_PASS = ${var.awx_admin_pass}",
+      "sudo echo ${var.awx_admin_pass} >> /root/var.txt",
+      "sudo echo $AWX_ADMIN_PASS >> /root/vare.txt",
       "sudo mkdir /root/prep-awx",
       "sudo cd /root/prep-awx",
       "sudo git init",
       "sudo git remote add origin https://github.com/marc-leblanc/awx-ansible-install.git",
       "sudo git pull https://github.com/marc-leblanc/awx-ansible-install/",
       "sudo cd prep-awx",
-      "sudo ansible-playbook prep-awx.yml --extra-vars='admin_pass=$${var.awx_admin_pass}'"
+      "sudo ansible-playbook prep-awx.yml"
     ]
 
   }
