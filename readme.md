@@ -31,6 +31,8 @@ With this method, terraform will provision the host, then bootstrap the ansible 
 To bring the instance down, simply run ```terraform destroy``` 
 
 ## Updates
+Update 03-10-2019: Restructured directories into various tech 
+
 Update 02-21-2019: Set up terraform to run the gcp provisioner as a module. Cleaner variable set up in main.tf. Cleaned out some static set up within the terraform and variablized 
 
 Update 02-16-2019: Added terraform for the initial provisioning. Currently has some hard  configured values for the remote_exec provisioner that needs to be cleaned up
