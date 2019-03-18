@@ -14,7 +14,7 @@
          name: gcsfuse.repo
          repo_gpgcheck: yes
     - name: Install Apache/PHP
-      yum: name=apache,php
+      yum: name=httpd,php
     - name: Yum Update
       yum:  name=* state=latest
     - name: Install gcsfuse
