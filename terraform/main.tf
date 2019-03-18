@@ -1,21 +1,21 @@
 module "gcp" {
    source                 = "./modules/gcp"
-   awx_admin              = "admin"
-   awx_admin_pass         = "supersecretpassword"
-   gcp_json               = "~/projects/awx-ansible-setup/secrets/mleblanc-ce-prov.json"
-   gcp_project_id         = "solar-cab-231515"
+   gcp_json               = "/home/mleblanc/projects/gwo-auto/secrets/gcp.json"
+   gcp_project_id         = "md-gwo-portals"
    gcp_region             = "northamerica-northeast1"
    gcp_zone               = "a"
-   gcp_instance_name      = "awx01"
+   gcp_instance_name      = "portal01"
    gcp_instance_os        = "centos-cloud/centos-7"
    ssh_key_path           = "~/.ssh/"
    ssh_key_pub            = "gcp_rsa.pub"
    ssh_key_priv           = "gcp_rsa"
    ssh_user               = "mleblanc"
+   ansible_playbook       = "gwo-auto.yml"
+   github_repo            = "https://github.com/marc-leblanc/awx-ansible-install.git"
 }
 
-# source             = module path. Do not Change
-# gcp_json           = GCP Service Account Key (path + filename) 
+# source             = module path
+# gcp_jason          = GCP Service Account Key 
 # gcp_project_id     = GCP Project ID
 # gcp_region         = GCP Region for instances ie northamerica-northeast
 # gcp_zone           = GCP Zone within the region ie a,b,c

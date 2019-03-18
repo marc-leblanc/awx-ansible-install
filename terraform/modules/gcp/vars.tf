@@ -1,6 +1,4 @@
 # Account Setup
-variable "awx_admin" {}
-variable "awx_admin_pass" {}
 variable "gcp_json" {}
 variable "gcp_project_id" {}
 variable "gcp_region" {}
@@ -11,4 +9,5 @@ variable "ssh_key_path" {}
 variable "ssh_key_pub" {}
 variable "ssh_key_priv" {}
 variable "ssh_user" {}
- 
+variable "github_repo" {}
+variable "ansible_playbook" {} 
