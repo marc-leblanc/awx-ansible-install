@@ -1,20 +1,23 @@
-
-
-
-  - name: Install GCS Fuse Yum Repo
-    yum_repository: 
-       baseurl: https://packages.cloud.google.com/yum/repos/gcsfuse-el7-x86_64
-       description: "GCS Fuse repository for GCP GCS buckets on VMs"
-       gpgcheck: yes
-       gpgkey: 
-         - https://packages.cloud.google.com/yum/doc/yum-key.gpg
-         - https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-       enabled: yes
-       name: gcsfuse.repo
-       repo_gpgcheck: yes
-  - name: Yum Update
-    yum:  name=* state=latest
-  - name: Install gcsfuse
-    yum:  name=gcsfuse state=present
-  - name: Mount portal storage bucket
-    shell: gcsfuse md-gwo-portals /var/www/html
+---
+- name: Setup host for GCS Backed hosting
+  hosts: localhost
+  tasks:
+    - name: Install GCS Fuse Yum Repo
+      yum_repository:
+         baseurl: https://packages.cloud.google.com/yum/repos/gcsfuse-el7-x86_64
+         description: "GCS Fuse repository for GCP GCS buckets on VMs"
+         gpgcheck: yes
+         gpgkey:
+            - https://packages.cloud.google.com/yum/doc/yum-key.gpg
+            - https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+         enabled: yes
+         name: gcsfuse.repo
+         repo_gpgcheck: yes
+    - name: Install Apache/PHP
+      yum: name=apache,php
+    - name: Yum Update
+      yum:  name=* state=latest
+    - name: Install gcsfuse
+      yum:  name=gcsfuse state=present
+    - name: Mount portal storage bucket
+      shell: gcsfuse md-gwo-portals /var/www/html
