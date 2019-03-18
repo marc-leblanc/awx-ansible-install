@@ -19,5 +19,12 @@
       yum:  name=* state=latest
     - name: Install gcsfuse
       yum:  name=gcsfuse state=present
+    - name: Disable SELinux (MUST be fixed in future version)
+      selinux: state=disabled
+    - name: start and enable httpd
+      systemd:
+         enabled: yes
+         state: started
+         name: httpd
     - name: Mount portal storage bucket
-      shell: gcsfuse md-gwo-portals /var/www/html
+      shell: gcsfuse -o allow_other --implicit-dirs md-gwo-portals /var/www/html
