@@ -2,9 +2,9 @@
 - name: Setup host for GCS Backed hosting
   hosts: localhost
   vars:
-  apache_vhosts:
-    - {servername: "www.domain.tld", documentroot: "/var/www/html/steinbachonline.com"}
-    - {servername: "www.otherdomain.tld", documentroot: "/var/www/html/okotoksonline.com"}
+    apache_vhosts:
+      - {servername: "www.domain.tld", documentroot: "/var/www/html/steinbachonline.com"}
+      - {servername: "www.otherdomain.tld", documentroot: "/var/www/html/okotoksonline.com"}
   tasks:
     - name: Install GCS Fuse Yum Repo
       yum_repository:
