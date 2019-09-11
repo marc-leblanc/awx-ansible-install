@@ -43,7 +43,7 @@ resource "google_compute_instance" "awx01" {
       type    = "ssh"
       user    = "${var.ssh_user}"
       timeout = "500s"
-      private_key = "${file("${var.ssh_key_path}${var.ssh_key_priv}")}"
+      private_key = "${var.ssh_key_priv}"
     }
     inline = [
 
