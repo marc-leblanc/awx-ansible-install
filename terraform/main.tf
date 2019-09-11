@@ -1,6 +1,6 @@
 module "gcp" {
    source                 = "./modules/gcp"
- #  gcp_json               = "/home/mleblanc/projects/gwo-auto/secrets/gcp.json"
+   gcp_json               = "${var.gcp_json}"
    gcp_project_id         = "phil-test-252017"
    gcp_region             = "northamerica-northeast1"
    gcp_zone               = "a"
