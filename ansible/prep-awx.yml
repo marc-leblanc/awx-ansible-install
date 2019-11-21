@@ -4,49 +4,54 @@
   tasks:
   - name: Add AWX Repo
     get_url:
-         url: https://copr.fedorainfracloud.org/coprs/mrmeee/awx/repo/epel-7/mrmeee-awx-epel-7.repo
-         dest: /etc/yum.repos.d/awx-rpm.repo
+      url: https://copr.fedorainfracloud.org/coprs/mrmeee/ansible-awx/repo/epel-7/mrmeee-ansible-awx-epel-7.repo
+      dest: /etc/yum.repos.d/awx-rpm.repo
+  - name: Activate Software Collections
+    command: rpm -ivh http://mirror.centos.org/centos/7/extras/x86_64/Packages/centos-release-scl-rh-2-3.el7.centos.noarch.rpm
+    become: yes
+    become_user: root
   - name: Add custom Yum repos for install 
     yum:
-         name:  https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
-         state: present
+      name:  https://download.postgresql.org/pub/repos/yum/9.6/redhat/rhel-7-x86_64/pgdg-centos96-9.6-3.noarch.rpm
+      state: present
   - name: Install required packages
     yum: 
-         name:
-            - git
-            - epel-release
-            - rabbitmq-server
-            - memcached
-            - ansible
-            - postgresql96-server
-            - wget
-            - nginx
-            - python-psycopg2
-            - awx
-         state: present
+      name:
+        - git
+        - epel-release
+        - rabbitmq-server
+        - memcached
+        - ansible
+        - postgresql11-server
+        - wget
+        - nginx
+        - python-psycopg2
+        - python36
+        - ansible-awx
+      state: present
   - name: Set SELinux to Permissive mode
     selinux:
-         policy: targeted
-         state: permissive
+      policy: targeted
+      state: permissive
   - name: Initialize Postgres
-    command: /usr/pgsql-9.6/bin/postgresql96-setup initdb
+    command: /usr/pgsql-11/bin/postgresql-11-setup initdb
   - name: Ensure installed Services are running
     service: name={{item}} state=started
     with_items:
-         - rabbitmq-server
-         - postgresql-9.6
-         - memcached
+      - rabbitmq-server
+      - postgresql-11
+      - memcached
   - name: Ensure PostgreSQL users are present.
     postgresql_user:
-         name: awx
-         state: present
+      name: awx
+      state: present
     become: yes
     become_user: postgres
   - name: Ensure PostgreSQL db is present
     postgresql_db:
-         name: awx
-         owner: awx
-         state: present
+      name: awx
+      owner: awx
+      state: present
     become: yes
     become_user: postgres   
   - name: Import AWX DB
@@ -72,17 +77,17 @@
     command: mv /etc/nginx/nginx.conf /etc/nginx.conf.bkp
   - name: Get nginx config
     get_url:
-        url : https://raw.githubusercontent.com/marc-leblanc/awx-ansible-install/master/assets/nginx/nginx.conf
-        dest: /etc/nginx/nginx.conf
+      url : https://raw.githubusercontent.com/marc-leblanc/awx-ansible-install/master/assets/nginx/nginx.conf
+      dest: /etc/nginx/nginx.conf
   - name: Start nginx
     service: 
-        name: nginx
-        state: started
+      name: nginx
+      state: started
   - name: start AWX services
     service: name={{item}} state=started
     with_items:
-         - awx-cbreceiver.service
-         - awx-channels-worker.service   
-         - awx-daphne.service
-         - awx-dispatcher.service     
-         - awx-web.service  
+      - awx-cbreceiver.service
+      - awx-channels-worker.service   
+      - awx-daphne.service
+      - awx-dispatcher.service     
+      - awx-web.service  

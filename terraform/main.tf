@@ -1,16 +1,16 @@
 module "gcp" {
    source                 = "./modules/gcp"
-   gcp_json               = "/home/mleblanc/projects/gwo-auto/secrets/gcp.json"
-   gcp_project_id         = "md-gwo-portals"
-   gcp_region             = "northamerica-northeast1"
+   gcp_json               = "~/private/tf-learn.json"
+   gcp_project_id         = "tf-learn-259522"
+   gcp_region             = "us-central1"
    gcp_zone               = "a"
    gcp_instance_name      = "portal01"
    gcp_instance_os        = "centos-cloud/centos-7"
    ssh_key_path           = "~/.ssh/"
    ssh_key_pub            = "gcp_rsa.pub"
    ssh_key_priv           = "gcp_rsa"
-   ssh_user               = "mleblanc"
-   ansible_playbook       = "gwo-auto.yml"
+   ssh_user               = "devops"
+   ansible_playbook       = "prep-awx.yml"
    github_repo            = "https://github.com/marc-leblanc/awx-ansible-install.git"
 }
 
